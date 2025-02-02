@@ -689,7 +689,7 @@
         }
 
         function highlighter(searchText) {
-            let tableCells = document.querySelectorAll("table td");
+            let tableCells = document.querySelectorAll("table[id^='dataTable'] td");
             let regex = new RegExp(searchText, "gi");
 
             tableCells.forEach(cell => {
