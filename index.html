@@ -104,6 +104,18 @@
             box-shadow: 2px 2px 3px #999;
             cursor: pointer;
         }
+
+        .clear-btn {
+            position: absolute;
+            right: 5px;
+            top: 48%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: none;
+        }
     </style>
 </head>
 
@@ -237,8 +249,11 @@
     </div>
 
     <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="searchTable()"
-            placeholder="Tulis nama kota/kabupaten untuk mengetahui zona area">
+        <div style="position: relative; display: inline-block; width: 100%;">
+            <input type="text" id="searchInput" oninput="searchTable()"
+                placeholder="Tulis nama kota/kabupaten untuk mengetahui zona area">
+            <button class="clear-btn" id="clearButton" onclick="clearInput()">✖</button>
+        </div>
 
         <p style="margin: 5px 0">Untuk pembelian hubungi : <a target="_blank"
                 href="https://api.whatsapp.com/send/?phone=6287882787471&text=Untuk%20pembelian%20silahkan%20isi%20form%20dibawah%20ya%20..%0A%0ANomor%20%3A%20%0AKab%2FKota%20%3A%20%0AVarian%20Kuota%20%3A%20">087882787471</a>
@@ -686,6 +701,7 @@
             }
 
             highlighter(filter);
+            toggleClearButton()
         }
 
         function highlighter(searchText) {
@@ -695,6 +711,26 @@
             tableCells.forEach(cell => {
                 cell.innerHTML = cell.textContent.replace(regex, match => `<span style="background-color: #fcbb14;">${match}</span>`);
             });
+        }
+
+        function toggleClearButton() {
+            let input = document.getElementById("searchInput");
+            let clearButton = document.getElementById("clearButton");
+            clearButton.style.display = input.value ? "block" : "none";
+        }
+
+        function clearInput() {
+            let input = document.getElementById("searchInput");
+            input.value = "";
+            const table = document.getElementById('dataTable');
+            const trs = table.querySelectorAll('tr');
+
+            for (let i = 1; i < trs.length; i++) {
+                let row = trs[i];
+                row.style.display = '';
+            }
+            toggleClearButton();
+            highlighter();
         }
     </script>
 </body>
